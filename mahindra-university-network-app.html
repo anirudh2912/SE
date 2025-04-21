@@ -1,0 +1,793 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MU Connect - Mahindra University Network</title>
+    <style>
+        :root {
+            --primary: #1e40af;
+            --primary-dark: #1e3a8a;
+            --secondary: #3b82f6;
+            --bg-light: #f3f4f6;
+            --text-dark: #1f2937;
+            --text-light: #f9fafb;
+            --danger: #ef4444;
+            --success: #10b981;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background-color: var(--bg-light);
+            color: var(--text-dark);
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        /* Login & Signup Pages */
+        .auth-container {
+            display: flex;
+            height: 100vh;
+        }
+        
+        .auth-image {
+            flex: 1;
+            background-color: var(--primary);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 2rem;
+            font-weight: bold;
+            padding: 2rem;
+        }
+        
+        .auth-form {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            padding: 3rem;
+            background-color: white;
+        }
+        
+        .auth-logo {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+        
+        .auth-form h1 {
+            font-size: 2rem;
+            margin-bottom: 2rem;
+            color: var(--primary);
+        }
+        
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 500;
+        }
+        
+        .form-group input {
+            width: 100%;
+            padding: 0.75rem;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 1rem;
+        }
+        
+        .btn {
+            padding: 0.75rem 1.5rem;
+            background-color: var(--primary);
+            color: white;
+            border: none;
+            border-radius: 4px;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+        
+        .btn:hover {
+            background-color: var(--primary-dark);
+        }
+        
+        .auth-footer {
+            margin-top: 2rem;
+            text-align: center;
+        }
+        
+        .auth-footer a {
+            color: var(--primary);
+            text-decoration: none;
+        }
+        
+        /* Dashboard */
+        .navbar {
+            background-color: white;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            padding: 1rem 2rem;
+        }
+        
+        .navbar-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .logo {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: var(--primary);
+        }
+        
+        .search-box {
+            flex: 1;
+            margin: 0 2rem;
+        }
+        
+        .search-box input {
+            width: 100%;
+            padding: 0.75rem;
+            border: 1px solid #ddd;
+            border-radius: 50px;
+            font-size: 1rem;
+        }
+        
+        .user-nav {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+        
+        .user-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background-color: var(--secondary);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: bold;
+        }
+        
+        /* Main Content */
+        .main-content {
+            display: grid;
+            grid-template-columns: 1fr 2fr 1fr;
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+        
+        .card {
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+        }
+        
+        .card-title {
+            font-size: 1.25rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+            color: var(--primary);
+        }
+        
+        /* User List */
+        .user-list {
+            max-height: 500px;
+            overflow-y: auto;
+        }
+        
+        .user-item {
+            display: flex;
+            align-items: center;
+            padding: 0.75rem 0;
+            border-bottom: 1px solid #eee;
+        }
+        
+        .user-item:last-child {
+            border-bottom: none;
+        }
+        
+        .user-info {
+            flex: 1;
+            margin-left: 1rem;
+        }
+        
+        .user-name {
+            font-weight: 500;
+        }
+        
+        .user-role {
+            font-size: 0.875rem;
+            color: #666;
+        }
+        
+        .connect-btn {
+            padding: 0.5rem 1rem;
+            background-color: var(--primary);
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 0.875rem;
+        }
+        
+        .connected-btn {
+            background-color: var(--success);
+        }
+        
+        .pending-btn {
+            background-color: #f59e0b;
+        }
+        
+        /* Posts */
+        .post {
+            margin-bottom: 2rem;
+        }
+        
+        .post-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+        
+        .post-user-info {
+            margin-left: 1rem;
+        }
+        
+        .post-content {
+            margin-bottom: 1rem;
+            line-height: 1.6;
+        }
+        
+        .post-job {
+            background-color: #f0f9ff;
+            padding: 1rem;
+            border-radius: 8px;
+            border-left: 4px solid var(--primary);
+            margin-bottom: 1rem;
+        }
+        
+        .post-actions {
+            display: flex;
+            gap: 1rem;
+        }
+        
+        .post-action-btn {
+            background: none;
+            border: none;
+            color: #666;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        .post-action-btn:hover {
+            color: var(--primary);
+        }
+        
+        /* Connections */
+        .connection-tabs {
+            display: flex;
+            border-bottom: 1px solid #eee;
+            margin-bottom: 1rem;
+        }
+        
+        .connection-tab {
+            padding: 0.75rem 1rem;
+            cursor: pointer;
+        }
+        
+        .connection-tab.active {
+            border-bottom: 2px solid var(--primary);
+            color: var(--primary);
+            font-weight: 500;
+        }
+        
+        /* Name Modal */
+        .modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: rgba(0, 0, 0, 0.5);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+        }
+        
+        .modal-content {
+            background-color: white;
+            border-radius: 8px;
+            padding: 2rem;
+            width: 400px;
+            max-width: 90%;
+        }
+        
+        .modal-title {
+            font-size: 1.5rem;
+            margin-bottom: 1.5rem;
+            color: var(--primary);
+        }
+        
+        .buttons {
+            display: flex;
+            justify-content: flex-end;
+            gap: 1rem;
+            margin-top: 2rem;
+        }
+        
+        /* Responsive */
+        @media (max-width: 992px) {
+            .main-content {
+                grid-template-columns: 1fr 2fr;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .auth-container {
+                flex-direction: column;
+            }
+            
+            .auth-image {
+                display: none;
+            }
+            
+            .navbar-content {
+                flex-direction: column;
+                gap: 1rem;
+            }
+            
+            .search-box {
+                margin: 1rem 0;
+                width: 100%;
+            }
+            
+            .main-content {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Login Page (visible at first) -->
+    <div id="login-page" class="auth-container">
+        <div class="auth-image">
+            <div>
+                <h1>MU Connect</h1>
+                <p>Connect. Network. Grow.</p>
+                <p>Exclusive for Mahindra University</p>
+            </div>
+        </div>
+        <div class="auth-form">
+            <div class="auth-logo">
+                <h1>MU Connect</h1>
+            </div>
+            <h1>Welcome Back</h1>
+            <form id="login-form">
+                <div class="form-group">
+                    <label for="login-email">Email (@mahindrauniversity.edu.in)</label>
+                    <input type="email" id="login-email" placeholder="Enter your university email" required>
+                </div>
+                <div class="form-group">
+                    <label for="login-password">Password</label>
+                    <input type="password" id="login-password" placeholder="Enter your password" required>
+                </div>
+                <button type="submit" class="btn" style="width: 100%;">Log In</button>
+            </form>
+            <div class="auth-footer">
+                <p>Don't have an account? <a href="#" id="show-signup">Sign Up</a></p>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Signup Page (hidden initially) -->
+    <div id="signup-page" class="auth-container" style="display: none;">
+        <div class="auth-image">
+            <div>
+                <h1>MU Connect</h1>
+                <p>Join the Mahindra University community</p>
+                <p>Build your professional network</p>
+            </div>
+        </div>
+        <div class="auth-form">
+            <div class="auth-logo">
+                <h1>MU Connect</h1>
+            </div>
+            <h1>Create Account</h1>
+            <form id="signup-form">
+                <div class="form-group">
+                    <label for="signup-email">Email (@mahindrauniversity.edu.in)</label>
+                    <input type="email" id="signup-email" placeholder="Enter your university email" required>
+                </div>
+                <div class="form-group">
+                    <label for="signup-password">Password</label>
+                    <input type="password" id="signup-password" placeholder="Create a password" required>
+                </div>
+                <div class="form-group">
+                    <label for="user-type">I am a:</label>
+                    <select id="user-type" style="width: 100%; padding: 0.75rem; border: 1px solid #ddd; border-radius: 4px; font-size: 1rem;">
+                        <option value="student">Current Student</option>
+                        <option value="alumni">Alumni</option>
+                    </select>
+                </div>
+                <button type="submit" class="btn" style="width: 100%;">Sign Up</button>
+            </form>
+            <div class="auth-footer">
+                <p>Already have an account? <a href="#" id="show-login">Log In</a></p>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Name Input Modal (appears after first login) -->
+    <div id="name-modal" class="modal" style="display: none;">
+        <div class="modal-content">
+            <h2 class="modal-title">Tell us your name</h2>
+            <div class="form-group">
+                <label for="display-name">Name to display on your profile</label>
+                <input type="text" id="display-name" placeholder="Enter your full name" required>
+            </div>
+            <div class="buttons">
+                <button class="btn" id="save-name">Save & Continue</button>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Main Dashboard (hidden initially) -->
+    <div id="dashboard" style="display: none;">
+        <!-- Navigation Bar -->
+        <nav class="navbar">
+            <div class="navbar-content">
+                <div class="logo">MU Connect</div>
+                <div class="search-box">
+                    <input type="text" placeholder="Search for students or alumni...">
+                </div>
+                <div class="user-nav">
+                    <div id="notifications" style="position: relative; cursor: pointer;">
+                        <span style="font-size: 1.5rem;">🔔</span>
+                        <span style="position: absolute; top: -5px; right: -5px; background-color: var(--danger); color: white; border-radius: 50%; width: 18px; height: 18px; font-size: 0.75rem; display: flex; align-items: center; justify-content: center;">3</span>
+                    </div>
+                    <div id="user-avatar" class="user-avatar">JS</div>
+                    <div id="user-name" style="font-weight: 500;">John Smith</div>
+                </div>
+            </div>
+        </nav>
+        
+        <!-- Main Content Area -->
+        <div class="container">
+            <div class="main-content">
+                <!-- Left Sidebar -->
+                <div class="left-sidebar">
+                    <!-- User Networks -->
+                    <div class="card">
+                        <h2 class="card-title">My Network</h2>
+                        <div class="connection-tabs">
+                            <div class="connection-tab active" data-tab="connected">Connected</div>
+                            <div class="connection-tab" data-tab="pending">Pending</div>
+                        </div>
+                        
+                        <!-- Connected Tab -->
+                        <div id="connected-tab" class="connection-content">
+                            <div class="user-list">
+                                <div class="user-item">
+                                    <div class="user-avatar">RP</div>
+                                    <div class="user-info">
+                                        <div class="user-name">Ravi Prakash</div>
+                                        <div class="user-role">Alumni - Class of 2022</div>
+                                    </div>
+                                    <button class="connect-btn connected-btn">Connected</button>
+                                </div>
+                                <div class="user-item">
+                                    <div class="user-avatar">SK</div>
+                                    <div class="user-info">
+                                        <div class="user-name">Sneha Kumar</div>
+                                        <div class="user-role">Alumni - Class of 2021</div>
+                                    </div>
+                                    <button class="connect-btn connected-btn">Connected</button>
+                                </div>
+                                <div class="user-item">
+                                    <div class="user-avatar">AM</div>
+                                    <div class="user-info">
+                                        <div class="user-name">Aditya Mehta</div>
+                                        <div class="user-role">Student - 3rd Year</div>
+                                    </div>
+                                    <button class="connect-btn connected-btn">Connected</button>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Pending Tab (hidden initially) -->
+                        <div id="pending-tab" class="connection-content" style="display: none;">
+                            <div class="user-list">
+                                <div class="user-item">
+                                    <div class="user-avatar">VP</div>
+                                    <div class="user-info">
+                                        <div class="user-name">Vikram Patel</div>
+                                        <div class="user-role">Alumni - Class of 2020</div>
+                                    </div>
+                                    <button class="connect-btn pending-btn">Pending</button>
+                                </div>
+                                <div class="user-item">
+                                    <div class="user-avatar">NR</div>
+                                    <div class="user-info">
+                                        <div class="user-name">Neha Reddy</div>
+                                        <div class="user-role">Alumni - Class of 2023</div>
+                                    </div>
+                                    <button class="connect-btn pending-btn">Pending</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Main Feed -->
+                <div class="main-feed">
+                    <!-- Posts -->
+                    <div class="card post">
+                        <div class="post-header">
+                            <div class="user-avatar">RP</div>
+                            <div class="post-user-info">
+                                <div class="user-name">Ravi Prakash</div>
+                                <div style="font-size: 0.875rem; color: #666;">Alumni - Class of 2022 • 2 hours ago</div>
+                            </div>
+                        </div>
+                        <div class="post-content">
+                            I'm excited to share that our company is looking for fresh graduates for the role of Software Engineer!
+                        </div>
+                        <div class="post-job">
+                            <h3 style="color: var(--primary); margin-bottom: 0.5rem;">Software Engineer - Entry Level</h3>
+                            <p><strong>Company:</strong> TechSolutions Inc.</p>
+                            <p><strong>Location:</strong> Hyderabad (Remote options available)</p>
+                            <p><strong>Requirements:</strong> B.Tech/M.Tech in CS/IT, Java/Python, Basic understanding of algorithms</p>
+                            <p><strong>Apply by:</strong> May 15, 2025</p>
+                            <button class="btn" style="margin-top: 1rem;">Apply Now</button>
+                        </div>
+                        <div class="post-actions">
+                            <button class="post-action-btn">
+                                <span>👍</span> Like (24)
+                            </button>
+                            <button class="post-action-btn">
+                                <span>💬</span> Comment (8)
+                            </button>
+                            <button class="post-action-btn">
+                                <span>📩</span> Save
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <div class="card post">
+                        <div class="post-header">
+                            <div class="user-avatar">SK</div>
+                            <div class="post-user-info">
+                                <div class="user-name">Sneha Kumar</div>
+                                <div style="font-size: 0.875rem; color: #666;">Alumni - Class of 2021 • 1 day ago</div>
+                            </div>
+                        </div>
+                        <div class="post-content">
+                            We're hiring interns for our Data Science team! Great opportunity for students who want to gain industry experience.
+                        </div>
+                        <div class="post-job">
+                            <h3 style="color: var(--primary); margin-bottom: 0.5rem;">Data Science Intern</h3>
+                            <p><strong>Company:</strong> AnalyticsPlus</p>
+                            <p><strong>Location:</strong> Bangalore</p>
+                            <p><strong>Duration:</strong> 3-6 months</p>
+                            <p><strong>Stipend:</strong> ₹25,000 - ₹40,000 per month</p>
+                            <p><strong>Requirements:</strong> Knowledge of Python, Statistics, and ML basics</p>
+                            <button class="btn" style="margin-top: 1rem;">Apply Now</button>
+                        </div>
+                        <div class="post-actions">
+                            <button class="post-action-btn">
+                                <span>👍</span> Like (42)
+                            </button>
+                            <button class="post-action-btn">
+                                <span>💬</span> Comment (15)
+                            </button>
+                            <button class="post-action-btn">
+                                <span>📩</span> Save
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Right Sidebar -->
+                <div class="right-sidebar">
+                    <!-- All Users -->
+                    <div class="card">
+                        <h2 class="card-title">People You May Know</h2>
+                        <div class="user-list">
+                            <div class="user-item">
+                                <div class="user-avatar">AS</div>
+                                <div class="user-info">
+                                    <div class="user-name">Arjun Singh</div>
+                                    <div class="user-role">Alumni - Class of 2020</div>
+                                </div>
+                                <button class="connect-btn">Connect</button>
+                            </div>
+                            <div class="user-item">
+                                <div class="user-avatar">PK</div>
+                                <div class="user-info">
+                                    <div class="user-name">Priya Kapoor</div>
+                                    <div class="user-role">Alumni - Class of 2022</div>
+                                </div>
+                                <button class="connect-btn">Connect</button>
+                            </div>
+                            <div class="user-item">
+                                <div class="user-avatar">RT</div>
+                                <div class="user-info">
+                                    <div class="user-name">Rahul Thakur</div>
+                                    <div class="user-role">Student - 4th Year</div>
+                                </div>
+                                <button class="connect-btn">Connect</button>
+                            </div>
+                            <div class="user-item">
+                                <div class="user-avatar">MS</div>
+                                <div class="user-info">
+                                    <div class="user-name">Meera Sharma</div>
+                                    <div class="user-role">Student - 3rd Year</div>
+                                </div>
+                                <button class="connect-btn">Connect</button>
+                            </div>
+                            <div class="user-item">
+                                <div class="user-avatar">VJ</div>
+                                <div class="user-info">
+                                    <div class="user-name">Vishal Joshi</div>
+                                    <div class="user-role">Alumni - Class of 2021</div>
+                                </div>
+                                <button class="connect-btn">Connect</button>
+                            </div>
+                        </div>
+                        <div style="text-align: center; margin-top: 1rem;">
+                            <a href="#" style="color: var(--primary); text-decoration: none;">See All Users</a>
+                        </div>
+                    </div>
+                    
+                    <!-- Upcoming Events -->
+                    <div class="card">
+                        <h2 class="card-title">Upcoming Events</h2>
+                        <div style="margin-bottom: 1rem; padding-bottom: 1rem; border-bottom: 1px solid #eee;">
+                            <h3 style="font-size: 1rem; margin-bottom: 0.5rem;">Campus Recruitment Drive</h3>
+                            <p style="font-size: 0.875rem;">April 25, 2025 • Main Auditorium</p>
+                        </div>
+                        <div style="margin-bottom: 1rem; padding-bottom: 1rem; border-bottom: 1px solid #eee;">
+                            <h3 style="font-size: 1rem; margin-bottom: 0.5rem;">Alumni Meetup 2025</h3>
+                            <p style="font-size: 0.875rem;">May 10, 2025 • Central Campus</p>
+                        </div>
+                        <div>
+                            <h3 style="font-size: 1rem; margin-bottom: 0.5rem;">Career Workshop</h3>
+                            <p style="font-size: 0.875rem;">May 18, 2025 • Online</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // DOM elements
+        const loginPage = document.getElementById('login-page');
+        const signupPage = document.getElementById('signup-page');
+        const nameModal = document.getElementById('name-modal');
+        const dashboard = document.getElementById('dashboard');
+        
+        // Toggle between login and signup pages
+        document.getElementById('show-signup').addEventListener('click', function(e) {
+            e.preventDefault();
+            loginPage.style.display = 'none';
+            signupPage.style.display = 'flex';
+        });
+        
+        document.getElementById('show-login').addEventListener('click', function(e) {
+            e.preventDefault();
+            signupPage.style.display = 'none';
+            loginPage.style.display = 'flex';
+        });
+        
+        // Login form submission
+        document.getElementById('login-form').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const email = document.getElementById('login-email').value;
+            
+            // Email domain validation
+            if (!email.endsWith('@mahindrauniversity.edu.in')) {
+                alert('Please use your @mahindrauniversity.edu.in email to login.');
+                return;
+            }
+            
+            // Check if it's first login (in real app, this would be checked from backend)
+            const isFirstLogin = true;
+            
+            if (isFirstLogin) {
+                loginPage.style.display = 'none';
+                nameModal.style.display = 'flex';
+            } else {
+                loginPage.style.display = 'none';
+                dashboard.style.display = 'block';
+            }
+        });
+        
+        // Signup form submission
+        document.getElementById('signup-form').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const email = document.getElementById('signup-email').value;
+            
+            // Email domain validation
+            if (!email.endsWith('@mahindrauniversity.edu.in')) {
+                alert('Please use your @mahindrauniversity.edu.in email to sign up.');
+                return;
+            }
+            
+            signupPage.style.display = 'none';
+            nameModal.style.display = 'flex';
+        });
+        
+        // Name modal submission
+        document.getElementById('save-name').addEventListener('click', function() {
+            const displayName = document.getElementById('display-name').value;
+            
+            if (!displayName.trim()) {
+                alert('Please enter your name.');
+                return;
+            }
+            
+            // Update user name in UI
+            document.getElementById('user-name').textContent = displayName;
+            
+            // Get initials for avatar
+            const initials = displayName.split(' ')
+                .map(name => name.charAt(0))
+                .join('')
+                .toUpperCase()
+                .substring(0, 2);
+            
+            document.getElementById('user-avatar').textContent = initials;
+            
+            nameModal.style.display = 'none';
+            dashboard.style.display = 'block';
+        });
+        
+        // Connection tabs functionality
+        const connectionTabs = document.querySelectorAll('.connection-tab');
+        connectionTabs.forEach(tab => {
+            tab.addEventListener('click', function() {
+                // Update active tab styling
+                connectionTabs.forEach(t => t.classList.remove('active'));
+                this.classList.add('active');
+                
+                // Show corresponding content
+                const tabName = this.getAttribute('data-tab');
+                document.getElementById('connected-tab').style.display = tabName === 'connected' ? 'block' : 'none';
+                document.getElementById('pending-tab').style.display = tabName === 'pending' ? 'block' : 'none';
+            });
+        });
+        
+        // Connect button functionality
+        const connectButtons = document.querySelectorAll('.connect-btn:not(.connected-btn):not(.pending-btn)');
+        connectButtons.forEach(button => {
+            button.addEventListener('click', function() {
+                this.textContent = 'Pending';
+                this.classList.add('pending-btn');
+            });
+        });
+    </script>
+</body>
+</html>
